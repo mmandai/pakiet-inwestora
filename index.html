@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>Kalkulatory Inwestycyjne Nieruchomości - Excel | Rentowność, Flip, Remont</title>
+    <meta name="description" content="Profesjonalne kalkulatory Excel dla inwestorów nieruchomości. Oblicz rentowność najmu, zysk z flipu, koszty remontu. Bez subskrypcji. 99 PLN.">
+    <meta name="keywords" content="kalkulator rentowności najmu, kalkulator flipu nieruchomości, estymator remontu, kalkulator inwestycyjny, nieruchomości excel, ROI wynajem, zysk flip">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Pakiet Inwestora Nieruchomości - 4 Kalkulatory Excel">
+    <meta property="og:description" content="Profesjonalne narzędzia analityczne dla inwestorów nieruchomości">
+    <meta property="og:url" content="https://imemyselfai.gumroad.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='40' fill='%231e40af' font-weight='700'>MM</text></svg>">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #ffffff;
+        }
+        
+        /* Header Navigation */
+        .header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e40af;
+        }
+        
+        .header-cta {
+            background: #1e40af;
+            color: white;
+            padding: 12px 28px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background 0.2s;
+        }
+        
+        .header-cta:hover {
+            background: #1e3a8a;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 100px 40px;
+        }
+        
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .hero-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .hero-text h1 {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .hero-text p {
+            font-size: 20px;
+            line-height: 1.6;
+            margin-bottom: 32px;
+            opacity: 0.95;
+            text-align: center;
+        }
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 56px;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 12px;
+            white-space: nowrap;
+        }
+        
+        .stat-label {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .hero-image {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .hero-image-placeholder {
+            background: rgba(255,255,255,0.95);
+            border-radius: 8px;
+            padding: 60px 40px;
+            text-align: center;
+            color: #1e40af;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .cta-primary {
+            display: inline-block;
+            background: #ffffff;
+            color: #1e40af;
+            padding: 16px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .cta-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-header h2 {
+            font-size: 40px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+        }
+        
+        .section-header p {
+            font-size: 18px;
+            color: #6b7280;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Calculator Showcase */
+        .calculator-showcase {
+            background: #f9fafb;
+            padding: 80px 40px;
+        }
+        
+        .calculator-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 60px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+        
+        .calculator-info {
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .calc-number {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .calculator-info h3 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+        }
+        
+        .calculator-info p {
+            font-size: 18px;
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+        
+        .calculator-info ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 32px;
+            text-align: left;
+            display: inline-block;
+        }
+        
+        .calculator-info li {
+            font-size: 16px;
+            color: #374151;
+            margin-bottom: 12px;
+            padding-left: 28px;
+            position: relative;
+        }
+        
+        .calculator-info li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .buy-link {
+            display: inline-block;
+            background: #1e40af;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            padding: 12px 28px;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        
+        .buy-link:hover {
+            background: #1e3a8a;
+            text-decoration: none;
+        }
+        
+        .calculator-preview {
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            min-height: 400px;
+        }
+        
+        .preview-placeholder {
+            background: white;
+            border-radius: 8px;
+            padding: 80px 60px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            max-width: 400px;
+        }
+        
+        .preview-placeholder-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        /* Pricing Section */
+        .pricing-section {
+            background: white;
+            padding: 80px 40px;
+        }
+        
+        .pricing-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .pricing-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 48px;
+            max-width: 450px;
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .pricing-card p {
+            text-align: center;
+        }
+        
+        .pricing-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 24px;
+            min-height: 140px;
+            justify-content: center;
+        }
+        
+        .pricing-card.featured {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            border: none;
+        }
+        
+        .pricing-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .pricing-card h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+        
+        .pricing-card .price {
+            font-size: 56px;
+            font-weight: 700;
+            margin: 16px 0 0 0;
+            white-space: nowrap;
+        }
+        
+        .price-currency {
+            font-size: 56px;
+        }
+        
+        .price-currency:before {
+            content: " ";
+            white-space: pre;
+        }
+        
+        .old-price {
+            text-decoration: line-through;
+            opacity: 0.6;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        
+        .savings {
+            color: #10b981;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .pricing-card.featured .savings {
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .pricing-features {
+            list-style: none;
+            padding: 0;
+            margin: 24px 0;
+            text-align: center;
+        }
+        
+        .pricing-features li {
+            padding: 12px 0;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            font-size: 16px;
+        }
+        
+        .pricing-features li a {
+            display: block;
+            text-align: center;
+        }
+        
+        .pricing-card.featured .pricing-features li {
+            border-color: rgba(255,255,255,0.2);
+        }
+        
+        .pricing-cta {
+            display: block;
+            width: 100%;
+            background: #1e40af;
+            color: white;
+            padding: 16px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: 24px;
+            transition: background 0.2s;
+        }
+        
+        .pricing-cta:hover {
+            background: #1e3a8a;
+        }
+        
+        .pricing-card.featured .pricing-cta {
+            background: white;
+            color: #1e40af;
+        }
+        
+        .pricing-card.featured .pricing-cta:hover {
+            background: #f3f4f6;
+        }
+        
+        /* Trust Section */
+        .trust-section {
+            background: #f9fafb;
+            padding: 80px 40px;
+        }
+        
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .trust-item {
+            padding: 20px;
+        }
+        
+        .trust-icon {
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+        
+        .trust-item h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+        
+        .trust-item p {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            background: white;
+            padding: 80px 40px;
+        }
+        
+        .faq-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            padding: 24px;
+            border-left: 3px solid #1e40af;
+            background: #f9fafb;
+        }
+        
+        .faq-item h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1a1a1a;
+        }
+        
+        .faq-item p {
+            font-size: 15px;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 60px 40px 40px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .footer-links {
+            margin-bottom: 24px;
+        }
+        
+        .footer-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            margin: 0 16px;
+            font-size: 14px;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-copy {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 968px) {
+            .header-content {
+                padding: 0 20px;
+            }
+            
+            .logo {
+                font-size: 20px;
+            }
+            
+            .header-cta {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            .hero-content,
+            .calculator-grid,
+            .pricing-grid,
+            .trust-grid,
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero {
+                padding: 60px 20px;
+            }
+            
+            .hero-text h1 {
+                font-size: 32px;
+            }
+            
+            .hero-text p {
+                font-size: 18px;
+            }
+            
+            .cta-primary {
+                display: block;
+                text-align: center;
+                padding: 14px 30px;
+                font-size: 16px;
+            }
+            
+            .container {
+                padding: 60px 20px;
+            }
+            
+            .calculator-showcase {
+                padding: 60px 20px;
+            }
+            
+            .section-header h2 {
+                font-size: 28px;
+            }
+            
+            .section-header p {
+                font-size: 16px;
+            }
+            
+            .calculator-info,
+            .pricing-card {
+                padding: 30px 20px;
+            }
+            
+            .calculator-info h3 {
+                font-size: 26px;
+            }
+            
+            .calculator-info p {
+                font-size: 16px;
+            }
+            
+            .hero-stats {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+            
+            .stat-number {
+                font-size: 32px;
+            }
+            
+            .stat-label {
+                font-size: 12px;
+            }
+            
+            .calculator-preview {
+                min-height: 300px;
+                padding: 20px;
+            }
+            
+            .preview-placeholder {
+                padding: 40px 30px;
+            }
+            
+            .pricing-section,
+            .trust-section,
+            .faq-section {
+                padding: 60px 20px;
+            }
+            
+            .pricing-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .pricing-card {
+                width: 100%;
+                max-width: 400px;
+            }
+            
+            .pricing-card .price {
+                font-size: 42px;
+            }
+            
+            .price-currency {
+                font-size: 42px;
+            }
+            
+            .trust-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 24px;
+            }
+            
+            .footer {
+                padding: 40px 20px 30px;
+            }
+            
+            .footer-links a {
+                display: block;
+                margin: 8px 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-text h1 {
+                font-size: 28px;
+            }
+            
+            .trust-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">MMDAI</div>
+            <a href="https://imemyselfai.gumroad.com/l/pin" class="header-cta">Kup teraz</a>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Profesjonalne narzędzia analityczne dla inwestorów nieruchomości</h1>
+                <p>4 kalkulatory Excel zaprojektowane przez inwestorów, dla inwestorów. Podejmuj decyzje oparte na liczbach, nie emocjach.</p>
+                <a href="https://imemyselfai.gumroad.com/l/pin" class="cta-primary">Pobierz pakiet - 99 PLN</a>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">4</span>
+                        <span class="stat-label">Kalkulatory</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">99 PLN</span>
+                        <span class="stat-label">Jednorazowo</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Offline</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-image">
+                <div class="hero-image-placeholder">
+                    📊 Screenshot głównego dashboardu
+                    <br><br>
+                    (Tutaj umieść screenshot z Excela)
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Calculator Showcase -->
+    <section class="calculator-showcase">
+        <div class="container">
+            <div class="section-header">
+                <h2>Cztery narzędzia, kompletna analiza</h2>
+                <p>Każdy kalkulator został zaprojektowany dla konkretnego typu inwestycji</p>
+            </div>
+            
+            <!-- Calculator 1 -->
+            <div class="calculator-item">
+                <div class="calculator-grid">
+                    <div class="calculator-info">
+                        <span class="calc-number">Kalkulator #1</span>
+                        <h3>Rentowność Najmu</h3>
+                        <p>Oblicz dokładny ROI z wynajmu długoterminowego z uwzględnieniem wszystkich kosztów i scenariuszy rynkowych.</p>
+                        <ul>
+                            <li>Projekcja zysków na 5 lat</li>
+                            <li>3 scenariusze: optymistyczny, realistyczny, pesymistyczny</li>
+                            <li>Uwzględnia podatki, pustostany, zarządzanie</li>
+                            <li>Automatyczna ocena inwestycji</li>
+                        </ul>
+                        <a href="https://imemyselfai.gumroad.com/l/rentownoscinajmu" class="buy-link">Kup osobno za 39 PLN</a>
+                    </div>
+                    <div class="calculator-preview">
+                        <div class="preview-placeholder">
+                            <div class="preview-placeholder-icon">📊</div>
+                            Screenshot kalkulatora #1
+                            <br>
+                            Panel z wynikami ROI
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Calculator 2 -->
+            <div class="calculator-item">
+                <div class="calculator-grid">
+                    <div class="calculator-preview">
+                        <div class="preview-placeholder">
+                            <div class="preview-placeholder-icon">🔨</div>
+                            Screenshot kalkulatora #2
+                            <br>
+                            Formularz estymacji
+                        </div>
+                    </div>
+                    <div class="calculator-info">
+                        <span class="calc-number">Kalkulator #2</span>
+                        <h3>Estymator Kosztów Remontu</h3>
+                        <p>Szacuj koszty remontu w 30 sekund. Wybierz tylko te prace, które planujesz i otrzymaj precyzyjny kosztorys.</p>
+                        <ul>
+                            <li>10 kategorii prac budowlanych</li>
+                            <li>4 poziomy wykończenia (podstawowy → premium)</li>
+                            <li>Ceny rynkowe aktualne na 2026</li>
+                            <li>Zaznacz tylko to, co potrzebujesz</li>
+                        </ul>
+                        <a href="https://imemyselfai.gumroad.com/l/estymatorremontu" class="buy-link">Kup osobno za 39 PLN</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Calculator 3 -->
+            <div class="calculator-item">
+                <div class="calculator-grid">
+                    <div class="calculator-info">
+                        <span class="calc-number">Kalkulator #3</span>
+                        <h3>Zysk z Flipu</h3>
+                        <p>Oblicz realny zysk z odsprzedaży nieruchomości uwzględniając wszystkie koszty, które łatwo pominąć.</p>
+                        <ul>
+                            <li>Podatek od zysku (np. 19% - zależnie od formy)</li>
+                            <li>Koszty notarialne i prowizje</li>
+                            <li>Odsetki od kredytu i holding costs</li>
+                            <li>ROI i zysk miesięczny</li>
+                        </ul>
+                        <a href="https://imemyselfai.gumroad.com/l/zyskzflipu" class="buy-link">Kup osobno za 39 PLN</a>
+                    </div>
+                    <div class="calculator-preview">
+                        <div class="preview-placeholder">
+                            <div class="preview-placeholder-icon">💰</div>
+                            Screenshot kalkulatora #3
+                            <br>
+                            Analiza zysku z flipu
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Calculator 4 -->
+            <div class="calculator-item">
+                <div class="calculator-grid">
+                    <div class="calculator-preview">
+                        <div class="preview-placeholder">
+                            <div class="preview-placeholder-icon">⚖️</div>
+                            Screenshot kalkulatora #4
+                            <br>
+                            Tabela porównawcza
+                        </div>
+                    </div>
+                    <div class="calculator-info">
+                        <span class="calc-number">Kalkulator #4</span>
+                        <h3>Porównywarka Nieruchomości</h3>
+                        <p>Porównaj do 4 ofert jednocześnie. Zobacz na pierwszy rzut oka, która nieruchomość jest najlepszą inwestycją.</p>
+                        <ul>
+                            <li>Cena za m² dla każdej oferty</li>
+                            <li>ROI z najmu dla każdej lokalizacji</li>
+                            <li>Potencjał zysku z flipu</li>
+                            <li>Kolor-kodowane kolumny dla łatwego porównania</li>
+                        </ul>
+                        <a href="https://imemyselfai.gumroad.com/l/porownywarka" class="buy-link">Kup osobno za 39 PLN</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Pricing Section -->
+    <section class="pricing-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Wybierz najlepszą opcję dla siebie</h2>
+            </div>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card featured">
+                    <span class="pricing-badge">REKOMENDOWANE</span>
+                    <div class="pricing-header">
+                        <h3>Pakiet Kompletny</h3>
+                        <div class="old-price">149 PLN</div>
+                        <div class="price">99<span class="price-currency">PLN</span></div>
+                    </div>
+                    <div class="savings">Oszczędzasz 50 PLN (33%)</div>
+                    <ul class="pricing-features">
+                        <li>✓ Wszystkie 4 kalkulatory</li>
+                        <li>✓ Rentowność Najmu</li>
+                        <li>✓ Estymator Remontu</li>
+                        <li>✓ Zysk z Flipu</li>
+                        <li>✓ Porównywarka Ofert</li>
+                        <li>✓ Natychmiastowy dostęp</li>
+                    </ul>
+                    <a href="https://imemyselfai.gumroad.com/l/pin" class="pricing-cta">Kup pakiet</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div style="height: 37px; margin-bottom: 16px;"></div>
+                    <div class="pricing-header">
+                        <h3>Pojedynczy</h3>
+                        <div style="height: 28px; margin-bottom: 8px;"></div>
+                        <div class="price">39<span class="price-currency">PLN</span></div>
+                    </div>
+                    <p style="margin-top: 16px; margin-bottom: 24px; color: #6b7280; text-align: center;">Wybierz jeden kalkulator</p>
+                    <ul class="pricing-features">
+                        <li><a href="https://imemyselfai.gumroad.com/l/rentownoscinajmu" style="color: #1e40af; text-decoration: none; font-weight: 600; text-align: center; display: block;">Rentowność Najmu</a></li>
+                        <li><a href="https://imemyselfai.gumroad.com/l/estymatorremontu" style="color: #1e40af; text-decoration: none; font-weight: 600; text-align: center; display: block;">Estymator Remontu</a></li>
+                        <li><a href="https://imemyselfai.gumroad.com/l/zyskzflipu" style="color: #1e40af; text-decoration: none; font-weight: 600; text-align: center; display: block;">Zysk z Flipu</a></li>
+                        <li><a href="https://imemyselfai.gumroad.com/l/porownywarka" style="color: #1e40af; text-decoration: none; font-weight: 600; text-align: center; display: block;">Porównywarka Ofert</a></li>
+                    </ul>
+                    <a href="https://imemyselfai.gumroad.com" class="pricing-cta">Zobacz sklep</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Trust Section -->
+    <section class="trust-section">
+        <div class="trust-grid">
+            <div class="trust-item">
+                <div class="trust-icon">🚫</div>
+                <h4>Bez subskrypcji</h4>
+                <p>Płacisz raz, używasz zawsze</p>
+            </div>
+            <div class="trust-item">
+                <div class="trust-icon">📴</div>
+                <h4>Działa offline</h4>
+                <p>Nie potrzebujesz internetu</p>
+            </div>
+            <div class="trust-item">
+                <div class="trust-icon">🔒</div>
+                <h4>Twoje dane</h4>
+                <p>Pełna prywatność i kontrola</p>
+            </div>
+            <div class="trust-item">
+                <div class="trust-icon">✅</div>
+                <h4>Excel + Google Sheets</h4>
+                <p>Kompatybilność z popularnymi narzędziami</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Najczęściej zadawane pytania</h2>
+            </div>
+            
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h4>Czy to jest subskrypcja?</h4>
+                    <p>Nie. Płacisz jednorazowo i masz dostęp do kalkulatorów na zawsze. Brak miesięcznych opłat.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4>Czy kalkulatory działają w Google Sheets?</h4>
+                    <p>Tak. Kalkulatory są kompatybilne z Microsoft Excel 2016+ oraz Google Sheets.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4>Czy moje dane są bezpieczne?</h4>
+                    <p>Absolutnie. Wszystko działa lokalnie na Twoim komputerze. Żadne dane nie są wysyłane do internetu.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4>Czy formuły są zabezpieczone?</h4>
+                    <p>Tak, formuły są chronione hasłem aby zapobiec przypadkowym zmianom. Możesz je odblokować jeśli potrzebujesz dostosować.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4>Potrzebuję automatyzacji procesów</h4>
+                    <p>Skontaktuj się: <a href="/cdn-cgi/l/email-protection#e881858d85919b8d848e8981a88f85898184c68b8785"><span class="__cf_email__" data-cfemail="452c2820283c36202923242c052228242c296b262a28">[email&#160;protected]</span></a>. Oferuję automatyzację dla portfeli 10+ mieszkań.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4>Jak otrzymam kalkulatory po zakupie?</h4>
+                    <p>Natychmiast po zakupie otrzymasz link do pobrania plików Excel. Możesz je ściągnąć wielokrotnie.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="https://imemyselfai.gumroad.com">Sklep Gumroad</a>
+                <a href="/cdn-cgi/l/email-protection#c1a8aca4acb8b2a4ada7a0a881a6aca0a8adefa2aeac">Kontakt</a>
+            </div>
+            <div class="footer-copy">
+                &copy; 2026 Pakiet Inwestora Nieruchomości. Wszystkie prawa zastrzeżone.
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Schema.org structured data -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" 
