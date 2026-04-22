@@ -318,7 +318,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- NAV -->
 <nav>
   <div class="nav-wrap">
-    <a class="logo" href="#"><span class="mmd">MMD</span><span class="ai">AI</span></a>
+    <a class="logo" href="#"><span class="mmd">MM</span><span class="ai">DAI</span></a>
     <a class="nav-cta" href="https://imemyselfai.gumroad.com/l/pin" data-track="cta_click" data-location="nav" data-product="bundle">Kup pakiet — 149 PLN</a>
   </div>
 </nav>
@@ -569,54 +569,133 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- Event Tracking Script -->
 <script>
 (function() {
-  // 1. Track all CTA clicks using data attributes
+  // Helper: safe gtag call
+  function track(eventName, params) {
+    if (typeof gtag === 'function') {
+      gtag('event', eventName, Object.assign({
+        transport_type: 'beacon'
+      }, params || {}));
+    }
+  }
+
+  // 1. CTA clicks (buttons with data-track attribute) — beacon-safe
   document.querySelectorAll('[data-track="cta_click"]').forEach(function(el) {
-    el.addEventListener('click', function() {
-      if (typeof gtag === 'function') {
-        gtag('event', 'cta_click', {
-          'location': el.getAttribute('data-location'),
-          'product': el.getAttribute('data-product'),
-          'link_url': el.href
-        });
-      }
+    el.addEventListener('click', function(e) {
+      track('cta_click', {
+        location: el.getAttribute('data-location'),
+        product: el.getAttribute('data-product'),
+        link_url: el.href,
+        link_text: el.textContent.trim().substring(0, 100)
+      });
     });
   });
 
-  // 2. Scroll depth tracking (25%, 50%, 75%, 100%)
+  // 2. Track ALL clicks on the page (any element) — fallback tracking
+  document.addEventListener('click', function(e) {
+    var el = e.target.closest('a, button');
+    if (!el) return;
+    // Skip if already tracked via data-track
+    if (el.hasAttribute('data-track')) return;
+    
+    var label = el.textContent.trim().substring(0, 100) || el.getAttribute('aria-label') || 'unknown';
+    var href = el.href || '';
+    var isExternal = href && !href.includes(window.location.hostname);
+    
+    track('element_click', {
+      element_type: el.tagName.toLowerCase(),
+      element_text: label,
+      element_class: el.className || 'none',
+      link_url: href,
+      is_external: isExternal
+    });
+  }, true);
+
+  // 3. Scroll depth tracking (25%, 50%, 75%, 100%)
   var scrollMarks = {25: false, 50: false, 75: false, 100: false};
+  var scrollTimer;
   window.addEventListener('scroll', function() {
-    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    var percent = Math.round((scrollTop / docHeight) * 100);
-    [25, 50, 75, 100].forEach(function(mark) {
-      if (percent >= mark && !scrollMarks[mark]) {
-        scrollMarks[mark] = true;
-        if (typeof gtag === 'function') {
-          gtag('event', 'scroll_depth', {'percent': mark});
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function() {
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      var percent = Math.round((scrollTop / docHeight) * 100);
+      [25, 50, 75, 100].forEach(function(mark) {
+        if (percent >= mark && !scrollMarks[mark]) {
+          scrollMarks[mark] = true;
+          track('scroll_depth', {percent: mark});
         }
-      }
-    });
+      });
+    }, 100);
   });
 
-  // 3. FAQ clicks tracking
+  // 4. FAQ clicks — track which questions get opened
   document.querySelectorAll('.faq-item summary').forEach(function(el) {
     el.addEventListener('click', function() {
-      if (typeof gtag === 'function') {
-        gtag('event', 'faq_click', {
-          'question': el.textContent.trim()
-        });
-      }
+      var isOpening = !el.parentElement.hasAttribute('open');
+      track('faq_interaction', {
+        question: el.textContent.trim(),
+        action: isOpening ? 'open' : 'close'
+      });
     });
   });
 
-  // 4. Time on page (milestones at 30s, 60s, 120s)
-  var timeMarks = [30, 60, 120];
-  timeMarks.forEach(function(seconds) {
+  // 5. Time on page milestones (30s, 60s, 120s, 180s)
+  [30, 60, 120, 180].forEach(function(seconds) {
     setTimeout(function() {
-      if (typeof gtag === 'function') {
-        gtag('event', 'time_on_page', {'seconds': seconds});
-      }
+      track('time_on_page', {seconds: seconds});
     }, seconds * 1000);
+  });
+
+  // 6. Section visibility — track when user sees each calc section
+  if ('IntersectionObserver' in window) {
+    var seenSections = {};
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var title = entry.target.querySelector('h3');
+          var num = entry.target.querySelector('.calc-num');
+          if (title && num) {
+            var key = num.textContent + ': ' + title.textContent;
+            if (!seenSections[key]) {
+              seenSections[key] = true;
+              track('section_view', {
+                section_name: key,
+                section_type: 'calculator'
+              });
+            }
+          }
+        }
+      });
+    }, {threshold: 0.5});
+    
+    document.querySelectorAll('.calc-row').forEach(function(el) {
+      observer.observe(el);
+    });
+
+    // Track pricing section visibility
+    var pricingObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !seenSections['pricing']) {
+          seenSections['pricing'] = true;
+          track('section_view', {
+            section_name: 'Cennik',
+            section_type: 'pricing'
+          });
+        }
+      });
+    }, {threshold: 0.3});
+    
+    var pricingCards = document.querySelectorAll('.pricing-card');
+    if (pricingCards.length) pricingObserver.observe(pricingCards[0]);
+  }
+
+  // 7. Page exit intent (mouse leaving viewport at top) — desktop only
+  var exitShown = false;
+  document.addEventListener('mouseleave', function(e) {
+    if (e.clientY < 0 && !exitShown) {
+      exitShown = true;
+      track('exit_intent', {page: 'landing'});
+    }
   });
 })();
 </script>
