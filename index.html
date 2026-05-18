@@ -99,8 +99,7 @@
     .calc-body{background:var(--bg3);border:1px solid rgba(0,0,0,.08);border-radius:0 0 16px 16px;padding:40px;}
     .calc-panel{display:none;}
     .calc-panel.active{display:block;}
-    .tax-note {font-size: 0.75rem; color: #DC2626; padding: 6px 0 2px 0;opacity: 0.8; text-align: center;}
-
+    .tax-note {font-size: 0.75rem; color: #DC2626; padding: 6px 0 2px 0;opacity: 0.8; text-align: center;display: flex; align-items: center; justify-content: center; line-height: 1.5; width: 100%; box-sizing: border-box;}
     .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;}
     .inputs-col h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:26px;font-weight:700;color:var(--text);margin-bottom:6px;}
     .inputs-col .desc{font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.5;}
@@ -442,7 +441,6 @@
             <div class="result-row"><span class="rl">Przychód netto</span><span class="rv" id="f-rev">—</span></div>
             <div class="result-row"><span class="rl">Zysk całkowity</span><span class="rv big" id="f-profit">—</span></div>
             <div class="result-row"><span class="rl">Zysk / miesiąc (avg)</span><span class="rv" id="f-mth">—</span></div>
-            <div class="result-row"><span class="rl">ROI projektu</span><span class="rv" id="f-roi">—</span></div>
             <div class="result-row"><span class="rl">ROI projektu</span><span class="rv" id="f-roi">—</span></div>
             <div class="tax-note">!!! Nie uwzględnia podatku 19% od zysku — pełna wersja w Excel !!!</div>
             <div class="verdict">
